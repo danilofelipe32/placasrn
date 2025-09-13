@@ -1,40 +1,22 @@
-
-import { GoogleGenAI } from "@google/genai";
-
-const API_KEY = process.env.API_KEY;
-
-if (!API_KEY) {
-    throw new Error("API_KEY environment variable not set");
-}
-
-const ai = new GoogleGenAI({ apiKey: API_KEY });
-
-function base64ToGenerativePart(base64: string, mimeType: string) {
-  return {
-    inlineData: {
-      data: base64.split(',')[1],
-      mimeType
-    },
-  };
-}
-
 export async function readPlateFromImage(imageDataUrl: string): Promise<string | null> {
-  const model = 'gemini-2.5-flash';
-  const imagePart = base64ToGenerativePart(imageDataUrl, "image/jpeg");
-  
-  const prompt = `Analyze the image and extract the car license plate number.
-  Respond with only the license plate string in the Brazilian formats 'ABC1234' or 'ABC1D23'. 
-  If you cannot find a clear license plate, respond with the exact string 'NOT_FOUND'.`;
-
   try {
-    const response = await ai.models.generateContent({
-        model,
-        contents: { parts: [imagePart, {text: prompt}] },
+    const response = await fetch('/.netlify/functions/gemini', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ imageDataUrl }),
     });
-    
-    const text = response.text.trim().toUpperCase();
 
-    if (text === 'NOT_FOUND' || text.length < 7) {
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `Server responded with status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const text = data.plate;
+
+    if (!text || text === 'NOT_FOUND' || text.length < 7) {
       return null;
     }
 
@@ -49,7 +31,7 @@ export async function readPlateFromImage(imageDataUrl: string): Promise<string |
     return null;
 
   } catch (error) {
-    console.error("Error calling Gemini API:", error);
-    throw new Error("Failed to communicate with the AI model.");
+    console.error("Error calling Netlify function:", error);
+    throw new Error("Failed to communicate with the server.");
   }
 }

@@ -1,0 +1,6 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="32" cy="32" r="28" fill="#2563EB" />
+  <circle cx="32" cy="32" r="20" fill="none" stroke="#DBEAFE" stroke-width="4"/>
+  <circle cx="32" cy="32" r="10" fill="#DBEAFE"/>
+  <text x="23" y="40" font-family="monospace" font-size="16" fill="#2563EB" font-weight="bold">AI</text>
+</svg>
