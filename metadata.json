@@ -1,0 +1,7 @@
+{
+  "name": "Placa Vision AI",
+  "description": "An AI-powered PWA to read vehicle license plates using your camera and check the vehicle's legal status (simulated).",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

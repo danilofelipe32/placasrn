@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1f2937" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Placa Vision AI" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <title>Placa Vision AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        overscroll-behavior-y: contain;
+      }
+      @keyframes scan-line {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(calc(7rem - 2px)); } /* h-28 is 7rem, line height is h-0.5 (2px) */
+      }
+      .animate-scan {
+        animation: scan-line 2.5s ease-in-out infinite alternate;
+      }
+      @keyframes pulse-corners {
+        0%, 100% { border-color: #60a5fa; } /* blue-400 */
+        50% { border-color: #bfdbfe; } /* blue-200 */
+      }
+      .animate-pulse-corners {
+        animation: pulse-corners 2.5s ease-in-out infinite;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.19.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-900 text-white">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
